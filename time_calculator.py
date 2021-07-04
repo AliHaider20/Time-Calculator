@@ -6,22 +6,29 @@ def add_time(start, duration, today=None):
     s_hour, s_minute = int(s_hour), int(s_minute)
     d_hour, d_minute = duration.split(":")
     d_hour, d_minute = int(d_hour), int(d_minute)
-    minute = ((s_minute + d_minute) % 60)
-    total_hours = (s_hour + d_hour) + ((s_minute + d_minute) // 59)
-    days = total_hours // 23
-    print("Days:", days)
-    print("Total hours",total_hours)
-    hours = total_hours % 23
-    print("Hours",hours)
+    minute = (s_minute + d_minute) % 60
+    total_hours = (s_hour + d_hour) + ((s_minute + d_minute) // 60)
+    days = total_hours // 24
+    hour = total_hours % 24
+    print('Minute:', minute)
+    print("Total Hours:",total_hours)
+    print("Hours:", hour)
     
-    if hours == 12:
-        if hours > 12:
-            hours %= 12  # Error in Hours
+    if hour >= 12:
+        if hour > 12:
+            hour %= 12 
         meridiem = "PM"
     else:
         meridiem = "AM" 
     
-    time += str(hours) + ":"
+    
+
+
+
+
+
+
+    time += str(hour) + ":"
 
     if len(str(minute)) == 1:
         time += "0" + str(minute)
@@ -30,12 +37,13 @@ def add_time(start, duration, today=None):
     
     time += " " + meridiem
 
+    print("Days: ",days) # Error in Days
     if days:
         next_day = days % 7
         if today:
             today = today.title()
             # print(((next_day + week.index(today)) % 7)) 
-            time += ", " + week[((next_day + week.index(today) + 1) % 7)] # Code worked but logic is still need to be cleared.
+            time += ", " + week[((next_day + week.index(today) ) % 7)] # Code worked but logic is still need to be cleared.
         else:
             if next_day > 1:
                 time += str(f"{next_day} days later")
@@ -56,7 +64,7 @@ def add_time(start, duration, today=None):
         
     return time
 
-print(add_time("11:30 AM", "2:32", "Monday")) #expected O/P "00:03 AM Thursday" 
+print(add_time("11:59 PM", "24:05", "Wednesday")) # expected O/P "00:03 AM Thursday" 
 
 """ add_time("3:00 PM", "3:10")
 # Returns: 6:10 PM
